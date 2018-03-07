@@ -1,80 +1,3 @@
-//init 
-  // const path = require('path');
-  // const HtmlWebpackPlugin = require('html-webpack-plugin');
-  // const CleanWebpackPlugin = require('clean-webpack-plugin');
-  // const webpack = require('webpack');
-
-  // module.exports = {
-  //   // devtool: 'inline-source-map',
-  //   devServer: {
-  //     contentBase: path.resolve(__dirname, 'dist'),
-  //     hot: true,
-  //     hotOnly: true
-  //   },
-  //   // entry: './src/index.js',
-  //   entry: {
-  //     app: './src/index.js',
-  //     vendor: [
-  //       'lodash'
-  //     ]
-  //     // print: './src/print.js'
-  //     // another: './src/another.js'
-  //   },
-  //   output: {
-  //     // filename: 'bundle.js',
-  //     filename: '[name].[chunkhash].js',
-  //     chunkFilename: '[name].bundle.js',
-  //     // filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].js' : '[name].bundle.js',
-  //     path: path.resolve(__dirname, 'dist')
-  //   },
-  //   plugins: [
-  //     new HtmlWebpackPlugin({
-  //       title: 'webpack demo',
-  //       filename: 'index.html'
-  //     }),
-  //     new webpack.ProvidePlugin({
-  //       $: 'jquery',
-  //       jQuery: 'jquery'
-  //     }),
-  //     new webpack.HashedModuleIdsPlugin(),
-  //     new CleanWebpackPlugin(['dist']),
-  //     new webpack.optimize.CommonsChunkPlugin({
-  //       name: 'vendor'
-  //     }),
-  //     new webpack.optimize.CommonsChunkPlugin({
-  //       name: 'runtime'
-  //     })
-  //     // new webpack.HotModuleReplacementPlugin(),
-  //     // new webpack.NamedModulesPlugin()
-  //   ],
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.css$/,
-  //         use: [
-  //           'style-loader',
-  //           'css-loader'
-  //         ]
-  //       },
-  //       {
-  //         test: /\.(png|svg|jpg|gif)$/,
-  //         use: [
-  //           'file-loader'
-  //         ]
-  //       },
-  //       {
-  //         test: /\.(woff|woff2|eot|ttf|otf)$/,
-  //         use: [
-  //           'file-loader'
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // };
-
-
-
-
 var path = require('path');
 var webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -112,11 +35,24 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 new webpack.DefinePlugin({
     "process.env": {
-        NODE_ENV: JSON.stringify("production")
+        NODE_ENV: JSON.stringify("development")
     }
 });
 const webpackConfig = module.exports = {
-    // devtool: 'source-map',// devtool: 'false',
+    devtool: 'cheap-module-eval-source-map',
+    //使用webpack-dev-server，提高开发效率
+    devServer: {
+        // contentBase: './',//resource not through webpack
+        contentBase: path.join(__dirname, 'dist'),
+        host: 'localhost',
+        port: 8083,
+        inline: true,
+        hot: true,
+        hotOnly: true,
+        compress: true, // enable gzip compression
+        // https: false,
+        // historyApiFallback: true, // true for index.html upon 404, object for multiple paths
+    },
     entry: {
         //支持数组形式，将加载数组中的所有模块，但以最后一个模块作为输出,比如下面数组里面的js,全部压缩在了vendor这个文件这里
         vendor: ['react', 'react-dom'],
@@ -126,11 +62,11 @@ const webpackConfig = module.exports = {
 
     output: {
         path: path.join(__dirname, 'dist'), //出口文件，生成一个dist文件，打包后的文件都在这里里面
-        // publicPath: './',// 会影响dev serve
+        // publicPath: './',
         // publicPath: '/dist/',
         // filename: 'js/[name].bundle.js',
-        filename: process.env.NODE_ENV === 'production' ? '[name].[hash:8].js' : '[name].bundle.js',
-        chunkFilename: 'chunk/[id].chunk.js'
+        filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash:8].js' : '[name].bundle.js',
+        chunkFilename: 'js/[id].chunk.js'
     },
 
     module: {
@@ -245,11 +181,6 @@ const webpackConfig = module.exports = {
         }),
         new CleanWebpackPlugin(['dist']),
         new webpack.HotModuleReplacementPlugin(),//热加载
-        new webpack.optimize.MinChunkSizePlugin({ //压缩代码的意思
-            compress: {
-                warnings: false
-            }
-        }),
         new ExtractTextPlugin(
             // 'css/[name].css'
             '[name].css'
@@ -257,7 +188,6 @@ const webpackConfig = module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['vendor'], // 配置boot防止 影响其他不变的文件也改变hash值；将公共模块提取，生成名为`vendors`的chunk.就是将vendor里面的文件压缩成一个文件
             filename: '[name].js',
-            chunks: ['react','react-dom'],
             // chunks: ['react','react-dom','jquery','react-tappable','underscore','react-router'], 
             //chunks 提取哪些模块共有的部分,跟vendor是一样的
             minChunks: Infinity // 提取至少*个模块共有的部分
@@ -267,64 +197,16 @@ const webpackConfig = module.exports = {
         new HtmlWebpackPlugin({ // 模板生成相关的配置，每个对于一个页面的配置，有几个写几个
             //favicon: './images/favicon.ico', //favicon路径，通过webpack引入同时可以生成hash值
             title: 'page',
-            chunks: ['vendor', 'app'],//区分你想要加载的js，名字要跟entry入口定义的保存一直
             // chunks: ['boot','vender','common','global',page.outputPath],
             filename: 'index.html',//'view/index.html',//page.outputPath + '.html',//生成的html存放路径，相对于 path
             template: 'src/index.ejs', //html模板路径
             inject: true, //true同body 允许插件修改哪些内容，包括head与body js插入的位置，true/'head'/'body'/false
             hash: true,//为静态资源生成hash值，可以实现缓存
-            minify: {
-                removeComments: true,//移除HTML中的注释
-                // collapseWhitespace: true,//删除空白符与换行符
-                //removeAttributeQuotes: true // 移除标签中属性值的引号
-            },
-            // chunks: ['vendor','app'] //默认引用全部
-            //excludeChunks,xhtml:true //xhtml兼容
-            chunksSortMode: 'dependency'// |'auto'
-                // function (a, b) {
-                //     var chunksort = ['boot','vender','common','global'];
-
-                //     var aIndex =chunksort.indexOf(a.names[0]);
-                //     var bIndex =chunksort.indexOf(b.names[0]);
-                //     aIndex = aIndex < 0 ? chunksort.length + 1 : aIndex;
-                //     bIndex = bIndex < 0 ? chunksort.length + 1 : bIndex;
-                //     return aIndex - bIndex;
-                // }
+            chunksSortMode: 'dependency'
         }),
+        new webpack.NamedModulesPlugin()
     ],
     //externals: {},
 
-    //使用webpack-dev-server，提高开发效率
-    devServer: {
-        // contentBase: './',//resource not through webpack
-        contentBase: path.join(__dirname, 'dist'),
-        host: 'localhost',
-        port: 8083,
-        inline: true,
-        hot: true,
-        // hotOnly: true,
-        compress: true, // enable gzip compression
-        // https: false,
-        historyApiFallback: true, // true for index.html upon 404, object for multiple paths
-    }
 
 };
-
-
-
-//     // 引入多入口的目录
-//     const pageArr = require('./pageArr.config.js') //module.exports = ['first','twice'];
-
-//     pageArr.forEach((page) => {
-//       const htmlPlugin = new HtmlWebpackPlugin({
-//         filename: `./${page}/index.html`, // 根目录是dist
-//         template:  `./pages/${page}/index.html`, // 根目录就是当前根目录
-//         chunks: [page],
-// //      title: ,
-//         hash: true, // 为静态资源生成hash值
-// //      minify: true,
-// //      xhtml: true,
-// //      showErrors: true
-//       });
-//       webpackConfig.plugins.push(htmlPlugin);
-//     });

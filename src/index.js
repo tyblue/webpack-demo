@@ -1,21 +1,23 @@
-// import _ from 'lodash';
+import "babel-polyfill";
+import _ from 'lodash';
 // import printMe from './print.js';
-// import './style.css';
-// import Icon from './icon.jpg';
+import './style.css';
+import Icon from './assets/icon.jpg';
 // import Data from './data.json';
 // import h from './h.js';
 
 function component() {
   const element = document.createElement('div');
+  element.className="hello"
   const btn = document.createElement('button');
     
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+  element.innerHTML = _.join(['Hi', 'webpack'], ' ');
   // element.classList.add('hello');
 
-  // const myIcon = new Image();
-  // myIcon.src = Icon;
+  const myIcon = new Image();
+  myIcon.src = Icon;
 
-  // element.appendChild(myIcon);
+  element.appendChild(myIcon);
 
   // console.log(Data);
 

@@ -1,79 +1,3 @@
-//init 
-  // const path = require('path');
-  // const HtmlWebpackPlugin = require('html-webpack-plugin');
-  // const CleanWebpackPlugin = require('clean-webpack-plugin');
-  // const webpack = require('webpack');
-
-  // module.exports = {
-  //   // devtool: 'inline-source-map',
-  //   devServer: {
-  //     contentBase: path.resolve(__dirname, 'dist'),
-  //     hot: true,
-  //     hotOnly: true
-  //   },
-  //   // entry: './src/index.js',
-  //   entry: {
-  //     app: './src/index.js',
-  //     vendor: [
-  //       'lodash'
-  //     ]
-  //     // print: './src/print.js'
-  //     // another: './src/another.js'
-  //   },
-  //   output: {
-  //     // filename: 'bundle.js',
-  //     filename: '[name].[chunkhash].js',
-  //     chunkFilename: '[name].bundle.js',
-  //     // filename: process.env.NODE_ENV === 'production' ? '[name].[chunkhash].js' : '[name].bundle.js',
-  //     path: path.resolve(__dirname, 'dist')
-  //   },
-  //   plugins: [
-  //     new HtmlWebpackPlugin({
-  //       title: 'webpack demo',
-  //       filename: 'index.html'
-  //     }),
-  //     new webpack.ProvidePlugin({
-  //       $: 'jquery',
-  //       jQuery: 'jquery'
-  //     }),
-  //     new webpack.HashedModuleIdsPlugin(),
-  //     new CleanWebpackPlugin(['dist']),
-  //     new webpack.optimize.CommonsChunkPlugin({
-  //       name: 'vendor'
-  //     }),
-  //     new webpack.optimize.CommonsChunkPlugin({
-  //       name: 'runtime'
-  //     })
-  //     // new webpack.HotModuleReplacementPlugin(),
-  //     // new webpack.NamedModulesPlugin()
-  //   ],
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.css$/,
-  //         use: [
-  //           'style-loader',
-  //           'css-loader'
-  //         ]
-  //       },
-  //       {
-  //         test: /\.(png|svg|jpg|gif)$/,
-  //         use: [
-  //           'file-loader'
-  //         ]
-  //       },
-  //       {
-  //         test: /\.(woff|woff2|eot|ttf|otf)$/,
-  //         use: [
-  //           'file-loader'
-  //         ]
-  //       }
-  //     ]
-  //   }
-  // };
-
-
-
 
 var path = require('path');
 var webpack = require('webpack');
@@ -121,7 +45,7 @@ const webpackConfig = module.exports = {
         //支持数组形式，将加载数组中的所有模块，但以最后一个模块作为输出,比如下面数组里面的js,全部压缩在了vendor这个文件这里
         vendor: ['react', 'react-dom'],
         // vendor: ['react', 'react-dom', 'react-tappable', 'underscore', 'react-router', 'dva'],
-        app: ['./src/index.js'],
+        app: ['./src/app.js'],
     },
 
     output: {
@@ -158,21 +82,25 @@ const webpackConfig = module.exports = {
                     use: [{
                             loader: 'css-loader',
                             options: {
-                                // modules: true,
+                                modules: true,
+                                localIdentName: '[local]',
                                 // localIdentName: '[name]__[local]--[hash:base64:5]',
                                 // url: false,// true!!!!否则引用字体等不打包
-                                sourceMap: true,minimize: true
+                                importLoaders: 1
+                                // sourceMap: true,minimize: true
                                 }
                             },
-                        //     {
-                        //     loader: 'postcss-loader', // 浏览器兼容等
-                        //     options: {
-                        //          minimize: true, //css压缩
-                        //          plugins: [
-                        //              require("autoprefixer")({browserslist: ["last 3 versions"]})
-                        //          ]
-                        //     }
-                        // }
+                            {
+                            loader: 'postcss-loader', // 浏览器兼容等
+                            options: {
+                                //  sourceMap: true,
+                                //  minimize: true, //css压缩
+                                 plugins: [
+                                     require("autoprefixer")({browserslist: ["last 10 versions"]})
+                                    
+                                 ]
+                            }
+                        }
                         ]
                     })
                 // loader: 'style-loader!css-loader'

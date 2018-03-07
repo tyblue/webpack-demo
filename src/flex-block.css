@@ -1,0 +1,70 @@
+/* flex-block */
+.flex-block-pre{
+    padding-left: 15px;
+    padding-top: 15px;
+    /* width: calc(100% - 15px); */
+}
+.block-up{
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-block-sm-out{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    width:50%;
+}
+.flex-block-sm {
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+    -ms-flex:1 0 34%;
+        flex:1 0 34%; /* ie hack ,other can be 50% */
+    padding-top:30% ; /* 比率 */
+    background-color: #fff;
+    background-clip: padding-box;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    position: relative;
+}
+.absolute-in{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.flex-block-md-out{
+    display: -ms-flexbox;
+    display: flex;
+    flex: 1;/* fix IE10 */
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    width: 50%;
+    border-right: 15px solid transparent;
+}
+.flex-block-md{
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+    -ms-flex:1 0 100%;
+        flex:1 0 100%;
+    padding-top:30% ; /* 比率 */
+    background-color: #fff;
+    background-clip: padding-box;
+    /* border-right: 15px solid transparent; */
+    border-bottom: 15px solid transparent;
+    position: relative;
+}
+
+.block-down{
+    padding-top:30% ; /* 比率 */
+    background-color: #fff;
+    background-clip: padding-box;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    position: relative;
+}

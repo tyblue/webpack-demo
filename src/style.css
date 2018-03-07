@@ -1,12 +1,17 @@
 @font-face {
   font-family: MyFont;
-  src: url(./my-font.ttf);
+  src: url(./assets/my-font.ttf);
+  src: local('☺'),
+        url('./assets/my-font.eot?#iefix') format('embedded-opentype'),  
+        /* url('fonts/webfont.woff') format('woff'),   */
+        url(./assets/my-font.ttf) format('truetype');
+        /* url('fonts/webfont.svg#webfontOTINA1xY') format('svg');   */
 }
 
-.hello {
+div {
   color: red;
   font-family: MyFont;
-  background: url(./icon.jpg);
+  background: url(./assets/icon.jpg);
 }
 
 body {
