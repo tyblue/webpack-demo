@@ -6,7 +6,14 @@ import _styles from './flex-block.css';
 const App = () => {
     return (
         <div className={`${_styles['flex-block-pre']}`}>
-            <div className={`${_styles['block-up']}`}>
+            <div className={`${_styles['block-up']}`} onClick={()=>{
+                    console.log("本地");
+                    try{console.log(a)}catch(e){
+                        console.log(e.stack)
+                    }
+                    import("./test.js").then(({a})=>{console.log(a)})
+                }
+            }>
                 <div className={`${_styles['flex-block-sm-out']}`}>
                     <div className={`${_styles['flex-block-sm']}`}>
                         <div className={`${_styles['absolute-in']}`}>11233234141234213414231414213412342134123412342134</div>
