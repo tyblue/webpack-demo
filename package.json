@@ -33,7 +33,10 @@
     "url-loader": "^1.0.1",
     "webpack": "^3.11.0",
     "webpack-dev-server": "^2.6.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+
+      "gulp": "^3.9.1",
+      "gulp-file-include": "^2.0.1"
   },
   "dependencies": {
     "jquery": "^3.3.1",
