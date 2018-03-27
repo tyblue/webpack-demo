@@ -6,8 +6,8 @@
         "useBuiltIns": true,//require Only once babel-polify(will be replace by smaller..)
         "debug": true
         }],
-    ["stage-0"],
-    ["react"]
+    ["react"],
+    ["stage-2"]
   ],
   "plugins": ["transform-runtime"]
 }
