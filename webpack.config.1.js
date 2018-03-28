@@ -36,11 +36,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 new webpack.DefinePlugin({
     "process.env": {
-        NODE_ENV: JSON.stringify("production")
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     }
 });
 const webpackConfig = module.exports = {
-    // devtool: 'source-map',// devtool: 'false',
+    devtool: process.env.NODE_ENV === 'production' ? 'false':'source-map',// devtool: 'false',
     entry: {
         //支持数组形式，将加载数组中的所有模块，但以最后一个模块作为输出,比如下面数组里面的js,全部压缩在了vendor这个文件这里
         vendor: ['react', 'react-dom'],

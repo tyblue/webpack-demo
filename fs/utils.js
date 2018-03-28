@@ -135,6 +135,11 @@ function onLeaveFullScreen() {
  * 拷贝 实例还有原型
  */
 //{ ...a } 【等同于Object.assign({}, a)】只拷贝实例
+// const obj = {
+//   ...(x > 1 ? {a: 1} : {}),         //!!
+//   b: 2,
+// };
+
 // 写法一 __proto__属性在非浏览器的环境不一定部署；不推荐
 const clone1 = {
   __proto__: Object.getPrototypeOf(obj),
@@ -152,3 +157,30 @@ const clone3 = Object.create(
   Object.getPrototypeOf(obj),
   Object.getOwnPropertyDescriptors(obj)
 )
+
+/**
+ * webpack支持的import() 类似实现
+ */
+// <script async是下载完就执行（可能不会按顺序）  或者defer（异步按顺序，但内联<script>代码会忽略defer属性）
+function importModule(url) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    const tempGlobal = "__tempModuleLoadingVariable" + Math.random().toString(32).substring(2);
+    script.type = "module";
+    script.textContent = `import * as m from "${url}"; window.${tempGlobal} = m;`;
+
+    script.onload = () => {
+      resolve(window[tempGlobal]);
+      delete window[tempGlobal];
+      script.remove();
+    };
+
+    script.onerror = () => {
+      reject(new Error("Failed to load module script with URL " + url));
+      delete window[tempGlobal];
+      script.remove();
+    };
+
+    document.documentElement.appendChild(script);
+  });
+}
