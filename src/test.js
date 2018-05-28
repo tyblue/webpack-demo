@@ -1,3 +1,4 @@
-console.log(11);
-export var a = "a为test"
-console.log(22)
+console.log("第一次会加载这里1")
+// export var a = "a为test";
+export let a=()=>("a在test里")
+console.log("第一次会加载这里2")

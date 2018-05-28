@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    ------->
+    <script>
+        function jsonpCallback(data){
+            document.write(JSON.stringify(data))
+            alert(data.x)
+        }
+        //本身运行在live插件的127.0.0.1:5500
+    </script>
+    <script>
+//  let a=7;
+//   var prom=(func)=>new Promise(
+//      (resolve,reject)=>{
+//          console.log(++a);resolve(func())
+//         }
+//     );
+// setTimeout(()=>{
+//     prom(()=>{
+//      const prom1="prom1";console.log(prom1);return prom1
+//     })
+//     .then(
+//     (v)=>prom(()=>{console.log(`${v}_then1`)})
+//     )
+// } , 0);
+// setTimeout(()=>{
+//     console.log("immediate")
+// } , 0);
+// setTimeout(()=>{
+//     prom(()=>{
+//      const prom1="prom1";console.log(prom1);return prom1
+//     })
+//     .then(
+//     (v)=>prom(()=>{console.log(`${v}_then2`)})
+//     )
+// } , 0);
+//
+// prom(()=>{const prom1="prom1";console.log(prom1);return prom1})
+// .then(
+//     (v)=>prom(()=>{console.log(`${v}_then_micro`)})
+// )
+// console.log("out")
+
+//---
+// console.log(1)
+// let promiseDemo = new Promise((resolve, reject) => {
+//     console.log(2)
+//     setTimeout(() => {
+//         let random = Math.random()
+//         if (random >= 0.2) {
+//             resolve('success')
+//             console.log(3)
+//         } else {
+//             reject('failed')
+//             console.log(3)
+//         }   
+//     }, 1000)
+// })
+
+// async function test() {
+//     console.log(4)
+//     let result = await promiseDemo
+//     return result
+// }
+
+// test().then(result => {
+//     console.log(5)
+// }).catch((result) => {
+//     console.log(5)
+// })
+
+// console.log(6)
+//---
+    </script>
+    <!-- <script src="http://127.0.0.3:3000/?callback=jsonpCallback"></script> -->
+</body>
+</html>

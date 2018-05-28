@@ -9,6 +9,9 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 //         },
 //         compress: {
 //             warnings: false
+//         },
+//         mangle: {
+//             except:['$super','$','exports','require']
 //         }
 //         })
 //   ]
@@ -84,7 +87,7 @@ const webpackConfig = module.exports = {
                             options: {
                                 modules: true,
                                 localIdentName: '[local]',
-                                // localIdentName: '[name]__[local]--[hash:base64:5]',
+                                // localIdentName: '[name]__[local]__[hash:base64:5]',
                                 // url: false,// true!!!!否则引用字体等不打包
                                 importLoaders: 1
                                 // sourceMap: true,minimize: true
@@ -116,15 +119,16 @@ const webpackConfig = module.exports = {
                             loader: 'css-loader',
                             options: {
                                 modules: true,
-                                localIdentName: '[name]__[local]--[hash:base64:5]',
+                                localIdentName: '[name]__[local]__[hash:base64:5]',
                                 // url: false,
-                                sourceMap: true,minimize: true
+                                sourceMap: process.env.NODE_ENV === 'production' ?false:true,
+                                minimize: true
                                 }
                         },{
                             loader: 'less-loader',
                             options:{
                                 // relativeUrls: false,
-                                sourceMap: true}
+                                sourceMap: process.env.NODE_ENV === 'production' ?false:true,}
                         }]
                     })
             },
@@ -164,7 +168,9 @@ const webpackConfig = module.exports = {
         ]
     },
 
-
+    resolve:{
+        extensions:['.js']
+    },
 
     plugins: [
         new webpack.ProvidePlugin({ //加载jq
@@ -222,7 +228,6 @@ const webpackConfig = module.exports = {
     ],
     //externals: {},
 
-    //使用webpack-dev-server，提高开发效率
     devServer: {
         // contentBase: './',//resource not through webpack
         contentBase: path.join(__dirname, 'dist'),

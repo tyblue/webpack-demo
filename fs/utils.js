@@ -184,3 +184,98 @@ function importModule(url) {
     document.documentElement.appendChild(script);
   });
 }
+/**
+ * enter键监听
+ */
+document.onkeydown = function (e) {
+    var theEvent = e || window.event;
+    var code = theEvent.keyCode || theEvent.which;
+    code == 13 && xxxx;
+  }
+//只绑定一个父dom,实现多个事件,利用冒泡事件委托
+window.onload = function(){
+            var oBox = document.getElementById("box");
+            oBox.onclick = function (ev) {
+                var ev = ev || window.event;
+                var target = ev.target || ev.srcElement;
+                if(target.nodeName.toLocaleLowerCase() == 'input'){
+                    switch(
+                      target.id//以id # 区分不同子元素
+                    ){
+                        case 'add' :
+                            alert('添加');
+                            break;
+                        case 'remove' :
+                            alert('删除');
+                            break;
+                        case 'move' :
+                            alert('移动');
+                            break;
+                        case 'select' :
+                            alert('选择');
+                            break;
+                    }
+                }
+            }
+            
+        }
+
+/**
+ * POST形式下载
+ * @param action
+ * @param attrs
+ */
+export const downLoad = (action, attrs = []) => {
+    const form = document.createElement('form');
+
+    form.setAttribute("id", "form");
+    form.setAttribute("style", "display:none");
+    form.setAttribute("target", "");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", action);
+
+    attrs.map(t => {
+        const {name, value} = t;
+        const input = document.createElement('input');
+
+        input.setAttribute("type", "hidden");
+        input.setAttribute("name", name);
+        input.setAttribute("value", value);
+        form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+  }
+  //XMLHTTPRequest
+  //https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Submitting_forms_and_uploading_files
+
+// 数组去重
+function unique(arr) {
+  if (!Array.isArray(arr)) {
+    throw new TypeError('array-unique expects an array.');
+  }
+
+  // var len = arr.length;
+  var i = -1;
+
+  // while (i++ < len) {
+  while (i++ < arr.length-1) {
+    var j = i + 1;
+
+    for (; j < arr.length; ++j) {
+      if (arr[i] === arr[j]) {
+        arr.splice(j--, 1);
+      }
+    }
+  }
+  return arr;
+};
+  // let arr2 = [];  
+  // for(let i = 0; i < arr.length; i++) {  
+  //     if(arr2.indexOf(arr[i]) == -1) { //不包含某个值则返回-1  
+  //         arr2.push(arr[i]);  
+  //     }  
+  // }  
+  // console.log(arr2); 
+  //另先排序再比较相邻项也可

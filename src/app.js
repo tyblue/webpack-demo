@@ -1,17 +1,19 @@
-import "babel-polyfill"; // 注意：只在入口处引用一次
+import "babel-polyfill"; // 注意：只在入口处引用一次 (babel useBuiltIns)
 import React from 'react';
 import ReactDOM from 'react-dom';
 import _styles from './flex-block.css';
-
+let a="initA";let b;
 const App = () => {
     return (
         <div className={`${_styles['flex-block-pre']}`}>
             <div className={`${_styles['block-up']}`} onClick={()=>{
-                    console.log("本地");
-                    try{console.log(a)}catch(e){
+                    try{console.log(a,b)}catch(e){
                         console.log(e.stack)
                     }
-                    import("./test.js").then(({a})=>{console.log(a)})
+                    import("./test.js").then(({a})=>{
+                        console.log(a);//和外面的a不是同一个
+                        b=a();
+                    })
                 }
             }>
                 <div className={`${_styles['flex-block-sm-out']}`}>
